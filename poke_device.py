@@ -320,8 +320,8 @@ GCK0_MC = 4
 GCK1_FB = 1
 GCK1_MC = 5
 
-# for zia_row in range(len(work_zia_map)):
-for zia_row in [1]:
+for zia_row in range(len(work_zia_map)):
+# for zia_row in [1]:
     zia_choices = len(work_zia_map[zia_row])
     for zia_choice_i in range(zia_choices):
     # for zia_choice_i in [0, 1]:
