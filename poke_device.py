@@ -17,6 +17,16 @@ def num2arr(num, bits):
         ret.append(1 if bit else 0)
     return ret
 
+BYPASS      = 0b11111111
+IDCODE      = 0b00000001
+ISC_DISABLE = 0b11000000
+ISC_ENABLE  = 0b11101000
+ISC_PROGRAM = 0b11101010
+ISC_ERASE   = 0b11101101
+ISC_READ    = 0b11101110
+ISC_INIT    = 0b11110000
+USERCODE    = 0b11111101
+
 class JTAGInteface:
     def __init__(self):
         dev = usb.core.find(idVendor=0xf055, idProduct=0x0000)
@@ -69,6 +79,27 @@ class JTAGInteface:
             self._last_bit = self.jtag_bit(tms, bits_in[i])
         return bits_out
 
+    def shift_ir_from_rti(self):
+        print("rti -> shift ir")
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(0, 0)
+        self._last_bit = self.jtag_bit(0, 0)
+
+    def rti_from_exit1(self):
+        print("exit1 -> rti")
+        self.jtag_bit(1, 0)
+        self.jtag_bit(0, 0)
+
+    def init_pulse_from_exit1_to_rti(self):
+        print("exit1 -> go through dr -> rti")
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(0, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(0, 0)
+
     def idcode(self):
         self.rti_from_tlr()
         self.shift_dr_from_rti()
@@ -77,27 +108,45 @@ class JTAGInteface:
         self.go_tlr()
         return arr2num(idcode)
 
-def rti_from_exit1(dev):
-    print("exit1 -> rti")
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 0, 0)
+    def xc2_erase(self):
+        self.rti_from_tlr()
+        self.shift_ir_from_rti()
+        self.shift_bits(num2arr(ISC_ENABLE, 8), True)
+        self.rti_from_exit1()
+        time.sleep(0.001)
 
-def shift_ir_from_rti(dev):
-    global _last_bit
-    print("rti -> shift ir")
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 0, 0)
-    _last_bit = jtag_bit(dev, 0, 0)
+        self.shift_ir_from_rti()
+        self.shift_bits(num2arr(ISC_ERASE, 8), True)
+        self.rti_from_exit1()
+        time.sleep(0.1)
 
-def shift_ir_from_exit1(dev):
-    global _last_bit
-    print("exit1 -> shift ir")
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 0, 0)
-    _last_bit = jtag_bit(dev, 0, 0)
+        # DISCHARGE
+        self.shift_ir_from_rti()
+        self.shift_bits(num2arr(ISC_INIT, 8), True)
+        self.rti_from_exit1()
+        time.sleep(0.001)
+
+        self.shift_ir_from_rti()
+        self.shift_bits(num2arr(ISC_INIT, 8), True)
+        self.init_pulse_from_exit1_to_rti()
+        time.sleep(0.001)
+
+        self.shift_ir_from_rti()
+        self.shift_bits(num2arr(ISC_DISABLE, 8), True)
+        self.rti_from_exit1()
+
+        self.shift_ir_from_rti()
+        self.shift_bits(num2arr(BYPASS, 8), True)
+        self.go_tlr()
+
+# def shift_ir_from_exit1(dev):
+#     global _last_bit
+#     print("exit1 -> shift ir")
+#     jtag_bit(dev, 1, 0)
+#     jtag_bit(dev, 1, 0)
+#     jtag_bit(dev, 1, 0)
+#     jtag_bit(dev, 0, 0)
+#     _last_bit = jtag_bit(dev, 0, 0)
 
 def shift_dr_from_exit1(dev):
     global _last_bit
@@ -106,25 +155,6 @@ def shift_dr_from_exit1(dev):
     jtag_bit(dev, 1, 0)
     jtag_bit(dev, 0, 0)
     _last_bit = jtag_bit(dev, 0, 0)
-
-def init_pulse_from_exit1_to_rti(dev):
-    print("exit1 -> go through dr -> rti")
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 0, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 0, 0)
-
-BYPASS      = 0b11111111
-IDCODE      = 0b00000001
-ISC_DISABLE = 0b11000000
-ISC_ENABLE  = 0b11101000
-ISC_PROGRAM = 0b11101010
-ISC_ERASE   = 0b11101101
-ISC_READ    = 0b11101110
-ISC_INIT    = 0b11110000
-USERCODE    = 0b11111101
 
 dev = JTAGInteface()
 idcode = dev.idcode()
@@ -193,38 +223,9 @@ print("idcode is 0x{:08X}".format(idcode))
 #                 f.write("0")
 #         f.write("\n")
 
-# ##### ERASE #####
-# shift_ir_from_exit1(dev)
-# shift_bits(dev, num2arr(ISC_ENABLE, 8), True)
-# rti_from_exit1(dev)
-# time.sleep(0.001)
-
-# shift_ir_from_rti(dev)
-# shift_bits(dev, num2arr(ISC_ERASE, 8), True)
-# rti_from_exit1(dev)
-# time.sleep(0.1)
-
-# # DISCHARGE
-# shift_ir_from_rti(dev)
-# shift_bits(dev, num2arr(ISC_INIT, 8), True)
-# rti_from_exit1(dev)
-# time.sleep(0.001)
-
-# shift_ir_from_rti(dev)
-# shift_bits(dev, num2arr(ISC_INIT, 8), True)
-# init_pulse_from_exit1_to_rti(dev)
-# time.sleep(0.001)
-
-# shift_ir_from_rti(dev)
-# shift_bits(dev, num2arr(ISC_DISABLE, 8), True)
-# rti_from_exit1(dev)
-
-# shift_ir_from_rti(dev)
-# shift_bits(dev, num2arr(BYPASS, 8), True)
-# go_tlr(dev)
 
 
-
+dev.xc2_erase()
 
 # ##### PROGRAM #####
 # crbit_bits = []
