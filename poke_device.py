@@ -4,61 +4,6 @@ import usb.core
 import usb.util
 import time
 
-def jtag_bit(dev, tms, tdi):
-    val = 0
-    if tdi:
-        val |= 0b01
-    if tms:
-        val |= 0b10
-    tdo = dev.ctrl_transfer(0xC0, 3, val, 0, 1)[0]
-    # print("tms {} tdi {} tdo {}".format(tms, tdi, tdo))
-    return tdo
-
-_last_bit = 0
-
-def go_tlr(dev):
-    print("go tlr")
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 1, 0)
-
-class JTAGInteface:
-    def __init__(self):
-        dev = usb.core.find(idVendor=0xf055, idProduct=0x0000)
-        assert dev is not None
-        # print(dev)
-        self.dev = dev
-
-        # Go into JTAG mode and TLR
-        dev.ctrl_transfer(0x40, 1, 0, 0, None)
-        go_tlr(dev)
-
-def rti_from_tlr(dev):
-    print("tlr -> rti")
-    jtag_bit(dev, 0, 0)
-
-def shift_dr_from_rti(dev):
-    global _last_bit
-    print("rti -> shift dr")
-    jtag_bit(dev, 1, 0)
-    jtag_bit(dev, 0, 0)
-    _last_bit = jtag_bit(dev, 0, 0)
-
-def shift_bits(dev, bits_in, exit):
-    global _last_bit
-    bits_out = []
-    print("shifting {} bits".format(len(bits_in)))
-    for i in range(len(bits_in)):
-        bits_out.append(_last_bit)
-        if exit and i == len(bits_in) - 1:
-            tms = 1
-        else:
-            tms = 0
-        _last_bit = jtag_bit(dev, tms, bits_in[i])
-    return bits_out
-
 def arr2num(arr):
     ret = 0
     for i in range(len(arr)):
@@ -71,6 +16,66 @@ def num2arr(num, bits):
         bit = num & (1 << i)
         ret.append(1 if bit else 0)
     return ret
+
+class JTAGInteface:
+    def __init__(self):
+        dev = usb.core.find(idVendor=0xf055, idProduct=0x0000)
+        assert dev is not None
+        # print(dev)
+        self.dev = dev
+        self._last_bit = 0
+
+        # Go into JTAG mode and TLR
+        dev.ctrl_transfer(0x40, 1, 0, 0, None)
+        self.go_tlr()
+
+    def jtag_bit(self, tms, tdi):
+        val = 0
+        if tdi:
+            val |= 0b01
+        if tms:
+            val |= 0b10
+        tdo = self.dev.ctrl_transfer(0xC0, 3, val, 0, 1)[0]
+        # print("tms {} tdi {} tdo {}".format(tms, tdi, tdo))
+        return tdo
+
+    def go_tlr(self):
+        print("go tlr")
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+        self.jtag_bit(1, 0)
+
+    def rti_from_tlr(self):
+        print("tlr -> rti")
+        self.jtag_bit(0, 0)
+
+    def shift_dr_from_rti(self):
+        print("rti -> shift dr")
+        self.jtag_bit(1, 0)
+        self.jtag_bit(0, 0)
+        self._last_bit = self.jtag_bit(0, 0)
+
+    def shift_bits(self, bits_in, exit):
+        bits_out = []
+        print("shifting {} bits".format(len(bits_in)))
+        for i in range(len(bits_in)):
+            bits_out.append(self._last_bit)
+            if exit and i == len(bits_in) - 1:
+                tms = 1
+            else:
+                tms = 0
+            self._last_bit = self.jtag_bit(tms, bits_in[i])
+        return bits_out
+
+    def idcode(self):
+        self.rti_from_tlr()
+        self.shift_dr_from_rti()
+        print("idcode")
+        idcode = self.shift_bits([0] * 32, True)
+        self.go_tlr()
+        return arr2num(idcode)
 
 def rti_from_exit1(dev):
     print("exit1 -> rti")
@@ -121,16 +126,8 @@ ISC_READ    = 0b11101110
 ISC_INIT    = 0b11110000
 USERCODE    = 0b11111101
 
-def idcode(dev):
-    rti_from_tlr(dev)
-    shift_dr_from_rti(dev)
-    print("idcode")
-    idcode = shift_bits(dev, [0] * 32, True)
-    go_tlr(dev)
-    return arr2num(idcode)
-
 dev = JTAGInteface()
-idcode = idcode(dev.dev)
+idcode = dev.idcode()
 print("idcode is 0x{:08X}".format(idcode))
 
 # ##### USERCODE #####
