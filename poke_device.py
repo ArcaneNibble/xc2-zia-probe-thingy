@@ -256,10 +256,18 @@ print("idcode is 0x{:08X}".format(idcode))
 work_zia_map = []
 
 def set_fake_input_bit(shift_bits, fb, mc):
+    if fb == 1:
+        fb = 2
+    elif fb == 1:
+        fb = 2
     idx = (fb * 16 + mc) * 3
     shift_bits[191 - idx] = 1
 
 def get_output_bit(shift_bits, fb, mc):
+    if fb == 1:
+        fb = 2
+    elif fb == 1:
+        fb = 2
     idx = (fb * 16 + mc) * 3 + 1
     return shift_bits[191 - idx]
 
@@ -320,11 +328,11 @@ GCK0_MC = 6
 GCK1_FB = 1
 GCK1_MC = 7
 
-# for zia_row in range(len(work_zia_map)):
-for zia_row in [0]:
+for zia_row in range(len(work_zia_map)):
+# for zia_row in [0]:
     zia_choices = len(work_zia_map[zia_row])
-    # for zia_choice_i in range(zia_choices):
-    for zia_choice_i in [5, 6]:
+    for zia_choice_i in range(zia_choices):
+    # for zia_choice_i in [5, 6]:
         # Save current progress
         with open("zia_work_dump.json", 'w') as f:
             json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
