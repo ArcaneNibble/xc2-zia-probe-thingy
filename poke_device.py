@@ -211,7 +211,8 @@ print("idcode is 0x{:08X}".format(idcode))
 
 dev.rti_from_tlr()
 dev.shift_ir_from_rti()
-dev.shift_bits(num2arr(EXTEST, 8), True)
+dev.shift_bits(num2arr(INTEST, 8), True)
+# dev.shift_bits(num2arr(EXTEST, 8), True)
 dev.shift_dr_from_exit1()
 
 while True:
@@ -231,16 +232,44 @@ while True:
     print('\x1b[H', end='')
     print('\x1b[2J', end='')
     #      |    |    |    |    |    |    |    |    |
-    print("          ##############################")
-    print("          # FB1     # FB2     # INPIN  #")
-    print("########################################")
+
+    num_fbs = len(oe) // 16
+
+    print("          ", end='')
+    for _ in range(num_fbs):
+        print("##########", end='')
+        print("##########", end='')
+        print("##########", end='')
+    # inpin hack
+    print("##########", end='')
+    print()
+
+    print("          ", end='')
+    for fb in range(num_fbs):
+        print("# FB{:<2} in ".format(fb + 1), end='')
+        print("# FB{:<2} oe ".format(fb + 1), end='')
+        print("# FB{:<2} o  ".format(fb + 1), end='')
+    # inpin hack
+    print("# INPIN  ", end='')
+    print("#")
+
+    print("##########", end='')
+    for _ in range(num_fbs):
+        print("##########", end='')
+        print("##########", end='')
+        print("##########", end='')
+    # inpin hack
+    print("##########", end='')
+    print()
 
     for mc in range(16):
         #      |    |    |    |    |    |    |    |    |
         print("# {:2d}      ".format(mc + 1), end='')
 
-        print("# {:d}       ".format(iopad_in[mc]), end='')
-        print("# {:d}       ".format(iopad_in[16 + mc]), end='')
+        for fb in range(num_fbs):
+            print("# {:d}       ".format(iopad_in[16 * fb + mc]), end='')
+            print("# {:d}       ".format(oe[16 * fb + mc]), end='')
+            print("# {:d}       ".format(fbmc_out[16 * fb + mc]), end='')
 
         if mc == 0:
             print("# {:d}      ".format(inpin), end='')
@@ -249,4 +278,11 @@ while True:
 
         print("#")
 
-    print("########################################")
+    print("##########", end='')
+    for _ in range(num_fbs):
+        print("##########", end='')
+        print("##########", end='')
+        print("##########", end='')
+    # inpin hack
+    print("##########", end='')
+    print()
