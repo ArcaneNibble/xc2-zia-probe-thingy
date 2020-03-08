@@ -2,6 +2,7 @@
 
 import usb.core
 import usb.util
+import subprocess
 import time
 import json
 
@@ -19,6 +20,24 @@ def load_crbit(fn):
             # print(linebits)
             assert len(linebits) == 260
             crbit_bits.append(linebits)
+
+    assert len(crbit_bits) == 50
+
+    return crbit_bits
+
+def load_crbit_2(contents):
+    crbit_bits = []
+    for l in contents.splitlines():
+        l = l.strip()
+        if not l:
+            continue
+        if l.startswith("//"):
+            continue
+        # print(l)
+        linebits = [1 if c == '1' else 0 for c in l]
+        # print(linebits)
+        assert len(linebits) == 260
+        crbit_bits.append(linebits)
 
     assert len(crbit_bits) == 50
 
@@ -201,102 +220,144 @@ class JTAGInteface:
         self.shift_bits(num2arr(BYPASS, 8), True)
         self.go_tlr()
 
+with open('work-jed-base.jed', 'r') as f:
+    work_jed_base = f.read()
+
+with open('work-jed-alt.jed', 'r') as f:
+    work_jed_alt = f.read()
+
+ZIA_ENTRIES = [
+    '01111110',
+    '01111101',
+    '01111011',
+    '01110111',
+    '01101111',
+    '01011111',
+    '11111111',
+]
+
 dev = JTAGInteface()
 idcode = dev.idcode()
 print("idcode is 0x{:08X}".format(idcode))
 
-dev.xc2_erase()
+# dev.xc2_erase()
 
-crbit_bits = load_crbit('work-jed-alt.crbit')
-dev.xc2_program(crbit_bits)
+# crbit_bits = load_crbit('work-jed-alt.crbit')
+# dev.xc2_program(crbit_bits)
 
-# dev.rti_from_tlr()
-# dev.shift_ir_from_rti()
-# dev.shift_bits(num2arr(INTEST, 8), True)
-# # dev.shift_bits(num2arr(EXTEST, 8), True)
-# dev.shift_dr_from_exit1()
+dev.rti_from_tlr()
+dev.shift_ir_from_rti()
+dev.shift_bits(num2arr(INTEST, 8), True)
+# dev.shift_bits(num2arr(EXTEST, 8), True)
+dev.shift_dr_from_exit1()
 
-# work_zia_map = []
+work_zia_map = []
 
-# def print_progress(trystr):
-#     # Each cell gets 15 total spaces
-#     print('\x1b[H', end='')
-#     print('\x1b[2J', end='')
+def print_progress(trystr):
+    return
 
-#     print(" " * 15, end='')
-#     for _ in range(zia_choices):
-#         print("#" * 15, end='')
-#     print("#")
+    # Each cell gets 15 total spaces
+    print('\x1b[H', end='')
+    print('\x1b[2J', end='')
 
-#     print(" " * 15, end='')
-#     for print_choice_i in range(zia_choices):
-#         print("# {:<13d}".format(print_choice_i), end='')
-#     print("#")
+    print(" " * 15, end='')
+    for _ in range(zia_choices):
+        print("#" * 15, end='')
+    print("#")
 
-#     print("#" * 15, end='')
-#     for _ in range(zia_choices):
-#         print("#" * 15, end='')
-#     print("#")
+    print(" " * 15, end='')
+    for print_choice_i in range(zia_choices):
+        print("# {:<13d}".format(print_choice_i), end='')
+    print("#")
 
-#     for print_row in range(len(work_zia_map)):
-#         print("# {:<13d}".format(print_row), end='')
-#         for print_choice_i in range(zia_choices):
-#             if print_row == zia_row and print_choice_i == zia_choice_i:
-#                 reverse_en = '\x1b[7m'
-#                 reverse_dis = '\x1b[0m'
-#                 fieldval = trystr + ' ' * (13 - len(trystr))
-#             else:
-#                 reverse_en = ''
-#                 reverse_dis = ''
-#                 zia_data = work_zia_map[print_row][print_choice_i]
-#                 if zia_data is None:
-#                     fieldval = "???"
-#                 elif zia_data == "inpin":
-#                     fieldval = "inpin        "
-#                 elif zia_data[2] == "io":
-#                     fieldval = "FB{}_{} io".format(zia_data[0] + 1, zia_data[1] + 1)
-#                 else:
-#                     fieldval = "FB{}_{} mc".format(zia_data[0] + 1, zia_data[1] + 1)
-#                 fieldval = fieldval + ' ' * (13 - len(fieldval))
+    print("#" * 15, end='')
+    for _ in range(zia_choices):
+        print("#" * 15, end='')
+    print("#")
 
-#             print("#{} {}{}".format(reverse_en, fieldval, reverse_dis), end='')
-#         print("#")
+    for print_row in range(len(work_zia_map)):
+        print("# {:<13d}".format(print_row), end='')
+        for print_choice_i in range(zia_choices):
+            if print_row == zia_row and print_choice_i == zia_choice_i:
+                reverse_en = '\x1b[7m'
+                reverse_dis = '\x1b[0m'
+                fieldval = trystr + ' ' * (13 - len(trystr))
+            else:
+                reverse_en = ''
+                reverse_dis = ''
+                zia_data = work_zia_map[print_row][print_choice_i]
+                if zia_data is None:
+                    fieldval = "???"
+                elif zia_data == "inpin":
+                    fieldval = "inpin        "
+                elif zia_data[2] == "io":
+                    fieldval = "FB{}_{} io".format(zia_data[0] + 1, zia_data[1] + 1)
+                else:
+                    fieldval = "FB{}_{} mc".format(zia_data[0] + 1, zia_data[1] + 1)
+                fieldval = fieldval + ' ' * (13 - len(fieldval))
 
-#     print("#" * 15, end='')
-#     for _ in range(zia_choices):
-#         print("#" * 15, end='')
-#     print("#")
+            print("#{} {}{}".format(reverse_en, fieldval, reverse_dis), end='')
+        print("#")
 
-# for _ in range(40):
-#     work_zia_map.append([None] * 6)
+    print("#" * 15, end='')
+    for _ in range(zia_choices):
+        print("#" * 15, end='')
+    print("#")
 
-# # for zia_row in range(len(work_zia_map)):
-# for zia_row in [0]:
-#     zia_choices = len(work_zia_map[zia_row])
-#     # for zia_choice_i in range(zia_choices):
-#     for zia_choice_i in [0]:
-#         # Save current progress
-#         with open("zia_work_dump.json", 'w') as f:
-#             json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
+for _ in range(40):
+    work_zia_map.append([None] * 6)
 
-#         print_progress("inpin")
+# for zia_row in range(len(work_zia_map)):
+for zia_row in [0]:
+    zia_choices = len(work_zia_map[zia_row])
+    # for zia_choice_i in range(zia_choices):
+    for zia_choice_i in [0]:
+        # Save current progress
+        with open("zia_work_dump.json", 'w') as f:
+            json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
 
-#         # Code HERE!
-#         time.sleep(0.5)
+        # Generate JEDs
+        jed_zia_data = ZIA_ENTRIES[-1] * zia_row + ZIA_ENTRIES[zia_row] + ZIA_ENTRIES[-1] * (39 - zia_row)
+        # print(jed_zia_data)
+        assert len(jed_zia_data) == 8 * 40
+        jed_pterm_data = '11' * zia_row + '01' + '11' * (39 - zia_row)
+        # print(jed_pterm_data)
+        assert len(jed_pterm_data) == 80
+        this_work_base_jed = work_jed_base.format(zia=jed_zia_data, pterm=jed_pterm_data)
+        this_work_alt_jed = work_jed_alt.format(zia=jed_zia_data, pterm=jed_pterm_data)
 
-#         for try_fb in range(2):
-#             for try_mc in range(16):
-#                 print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
+        with open('tmp-base.jed', 'w') as f:
+            f.write(this_work_base_jed)
+        with open('tmp-alt.jed', 'w') as f:
+            f.write(this_work_alt_jed)
 
-#                 # Code HERE!
-#                 time.sleep(0.05)
+        base_crbit = load_crbit_2(subprocess.check_output([
+            '/home/rqou/code/openfpga/src/xc2bit/target/release/xc2jed2crbit',
+            'tmp-base.jed']).decode('ascii'))
+        print(base_crbit)
+        alt_crbit = load_crbit_2(subprocess.check_output([
+            '/home/rqou/code/openfpga/src/xc2bit/target/release/xc2jed2crbit',
+            'tmp-alt.jed']).decode('ascii'))
+        print(alt_crbit)
 
-#                 print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
+        print_progress("inpin")
 
-#                 # Code HERE!
-#                 time.sleep(0.05)
+        # Code HERE!
+        time.sleep(0.5)
 
-# dev.go_tlr()
+        for try_fb in range(2):
+            for try_mc in range(16):
+                print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
+
+                # Code HERE!
+                time.sleep(0.05)
+
+                print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
+
+                # Code HERE!
+                time.sleep(0.05)
+
+dev.go_tlr()
 
 # led_idx = 0
 # while True:
