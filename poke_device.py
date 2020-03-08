@@ -211,8 +211,8 @@ print("idcode is 0x{:08X}".format(idcode))
 
 dev.rti_from_tlr()
 dev.shift_ir_from_rti()
-# dev.shift_bits(num2arr(INTEST, 8), True)
-dev.shift_bits(num2arr(EXTEST, 8), True)
+dev.shift_bits(num2arr(INTEST, 8), True)
+# dev.shift_bits(num2arr(EXTEST, 8), True)
 dev.shift_dr_from_exit1()
 
 led_idx = 0
