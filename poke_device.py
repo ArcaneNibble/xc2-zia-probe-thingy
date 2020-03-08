@@ -214,10 +214,39 @@ dev.shift_ir_from_rti()
 dev.shift_bits(num2arr(EXTEST, 8), True)
 dev.shift_dr_from_exit1()
 
-# In shift-dr state now
-bits_out = dev.shift_bits([1] * 97, True)
-print(bits_out)
-# In exit1-dr state now
+while True:
+    # In shift-dr state now
+    bits_out = dev.shift_bits([0] * 97, True)
+    # print(bits_out)
+    # In exit1-dr state now
 
-# Hack; need to cycle through update
-dev.shift_dr_from_exit1()
+    # Hack; need to cycle through update
+    dev.shift_dr_from_exit1()
+
+    inpin = bits_out[0]
+    oe = bits_out[1::3][::-1]
+    fbmc_out = bits_out[2::3][::-1]
+    iopad_in = bits_out[3::3][::-1]
+
+    print('\x1b[H', end='')
+    print('\x1b[2J', end='')
+    #      |    |    |    |    |    |    |    |    |
+    print("          ##############################")
+    print("          # FB1     # FB2     # INPIN  #")
+    print("########################################")
+
+    for mc in range(16):
+        #      |    |    |    |    |    |    |    |    |
+        print("# {:2d}      ".format(mc + 1), end='')
+
+        print("# {:d}       ".format(iopad_in[mc]), end='')
+        print("# {:d}       ".format(iopad_in[16 + mc]), end='')
+
+        if mc == 0:
+            print("# {:d}      ".format(inpin), end='')
+        else:
+            print("#        ", end='')
+
+        print("#")
+
+    print("########################################")
