@@ -204,7 +204,20 @@ dev = JTAGInteface()
 idcode = dev.idcode()
 print("idcode is 0x{:08X}".format(idcode))
 
-dev.xc2_erase()
+# dev.xc2_erase()
 
-crbit_bits = load_crbit('test.crbit')
-dev.xc2_program(crbit_bits)
+# crbit_bits = load_crbit('test.crbit')
+# dev.xc2_program(crbit_bits)
+
+dev.rti_from_tlr()
+dev.shift_ir_from_rti()
+dev.shift_bits(num2arr(EXTEST, 8), True)
+dev.shift_dr_from_exit1()
+
+# In shift-dr state now
+bits_out = dev.shift_bits([1] * 97, True)
+print(bits_out)
+# In exit1-dr state now
+
+# Hack; need to cycle through update
+dev.shift_dr_from_exit1()
