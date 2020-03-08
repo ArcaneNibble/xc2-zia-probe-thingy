@@ -18,10 +18,10 @@ def load_crbit(fn):
             # print(l)
             linebits = [1 if c == '1' else 0 for c in l]
             # print(linebits)
-            assert len(linebits) == 260
+            assert len(linebits) == 274
             crbit_bits.append(linebits)
 
-    assert len(crbit_bits) == 50
+    assert len(crbit_bits) == 98
 
     return crbit_bits
 
@@ -36,10 +36,10 @@ def load_crbit_2(contents):
         # print(l)
         linebits = [1 if c == '1' else 0 for c in l]
         # print(linebits)
-        assert len(linebits) == 260
+        assert len(linebits) == 274
         crbit_bits.append(linebits)
 
-    assert len(crbit_bits) == 50
+    assert len(crbit_bits) == 98
 
     return crbit_bits
 
@@ -200,7 +200,7 @@ class JTAGInteface:
             print("shifting row {}\r".format(i), end='')
             self.shift_bits(crbit_bits[i][::-1], False)
             addr_gray = i ^ (i >> 1)
-            self.shift_bits(num2arr(addr_gray, 6)[::-1], True)
+            self.shift_bits(num2arr(addr_gray, 7)[::-1], True)
             self.rti_from_exit1()
             time.sleep(0.01)
             if i != len(crbit_bits) - 1:
@@ -240,12 +240,12 @@ dev = JTAGInteface()
 idcode = dev.idcode()
 print("idcode is 0x{:08X}".format(idcode))
 
-# dev.xc2_erase()
+dev.xc2_erase()
 
-# crbit_bits = load_crbit('tmp-base.crbit')
-# dev.xc2_program(crbit_bits)
+crbit_bits = load_crbit('test-64.crbit')
+dev.xc2_program(crbit_bits)
 
-# sys.exit(1)
+sys.exit(1)
 
 work_zia_map = []
 
