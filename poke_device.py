@@ -207,7 +207,7 @@ print("idcode is 0x{:08X}".format(idcode))
 
 dev.xc2_erase()
 
-crbit_bits = load_crbit('work-jed-base.crbit')
+crbit_bits = load_crbit('work-jed-alt.crbit')
 dev.xc2_program(crbit_bits)
 
 # dev.rti_from_tlr()
