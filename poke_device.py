@@ -205,98 +205,98 @@ dev = JTAGInteface()
 idcode = dev.idcode()
 print("idcode is 0x{:08X}".format(idcode))
 
-# dev.xc2_erase()
+dev.xc2_erase()
 
-# crbit_bits = load_crbit('test.crbit')
-# dev.xc2_program(crbit_bits)
+crbit_bits = load_crbit('work-jed-base.crbit')
+dev.xc2_program(crbit_bits)
 
-dev.rti_from_tlr()
-dev.shift_ir_from_rti()
-dev.shift_bits(num2arr(INTEST, 8), True)
-# dev.shift_bits(num2arr(EXTEST, 8), True)
-dev.shift_dr_from_exit1()
+# dev.rti_from_tlr()
+# dev.shift_ir_from_rti()
+# dev.shift_bits(num2arr(INTEST, 8), True)
+# # dev.shift_bits(num2arr(EXTEST, 8), True)
+# dev.shift_dr_from_exit1()
 
-work_zia_map = []
+# work_zia_map = []
 
-def print_progress(trystr):
-    # Each cell gets 15 total spaces
-    print('\x1b[H', end='')
-    print('\x1b[2J', end='')
+# def print_progress(trystr):
+#     # Each cell gets 15 total spaces
+#     print('\x1b[H', end='')
+#     print('\x1b[2J', end='')
 
-    print(" " * 15, end='')
-    for _ in range(zia_choices):
-        print("#" * 15, end='')
-    print("#")
+#     print(" " * 15, end='')
+#     for _ in range(zia_choices):
+#         print("#" * 15, end='')
+#     print("#")
 
-    print(" " * 15, end='')
-    for print_choice_i in range(zia_choices):
-        print("# {:<13d}".format(print_choice_i), end='')
-    print("#")
+#     print(" " * 15, end='')
+#     for print_choice_i in range(zia_choices):
+#         print("# {:<13d}".format(print_choice_i), end='')
+#     print("#")
 
-    print("#" * 15, end='')
-    for _ in range(zia_choices):
-        print("#" * 15, end='')
-    print("#")
+#     print("#" * 15, end='')
+#     for _ in range(zia_choices):
+#         print("#" * 15, end='')
+#     print("#")
 
-    for print_row in range(len(work_zia_map)):
-        print("# {:<13d}".format(print_row), end='')
-        for print_choice_i in range(zia_choices):
-            if print_row == zia_row and print_choice_i == zia_choice_i:
-                reverse_en = '\x1b[7m'
-                reverse_dis = '\x1b[0m'
-                fieldval = trystr + ' ' * (13 - len(trystr))
-            else:
-                reverse_en = ''
-                reverse_dis = ''
-                zia_data = work_zia_map[print_row][print_choice_i]
-                if zia_data is None:
-                    fieldval = "???"
-                elif zia_data == "inpin":
-                    fieldval = "inpin        "
-                elif zia_data[2] == "io":
-                    fieldval = "FB{}_{} io".format(zia_data[0] + 1, zia_data[1] + 1)
-                else:
-                    fieldval = "FB{}_{} mc".format(zia_data[0] + 1, zia_data[1] + 1)
-                fieldval = fieldval + ' ' * (13 - len(fieldval))
+#     for print_row in range(len(work_zia_map)):
+#         print("# {:<13d}".format(print_row), end='')
+#         for print_choice_i in range(zia_choices):
+#             if print_row == zia_row and print_choice_i == zia_choice_i:
+#                 reverse_en = '\x1b[7m'
+#                 reverse_dis = '\x1b[0m'
+#                 fieldval = trystr + ' ' * (13 - len(trystr))
+#             else:
+#                 reverse_en = ''
+#                 reverse_dis = ''
+#                 zia_data = work_zia_map[print_row][print_choice_i]
+#                 if zia_data is None:
+#                     fieldval = "???"
+#                 elif zia_data == "inpin":
+#                     fieldval = "inpin        "
+#                 elif zia_data[2] == "io":
+#                     fieldval = "FB{}_{} io".format(zia_data[0] + 1, zia_data[1] + 1)
+#                 else:
+#                     fieldval = "FB{}_{} mc".format(zia_data[0] + 1, zia_data[1] + 1)
+#                 fieldval = fieldval + ' ' * (13 - len(fieldval))
 
-            print("#{} {}{}".format(reverse_en, fieldval, reverse_dis), end='')
-        print("#")
+#             print("#{} {}{}".format(reverse_en, fieldval, reverse_dis), end='')
+#         print("#")
 
-    print("#" * 15, end='')
-    for _ in range(zia_choices):
-        print("#" * 15, end='')
-    print("#")
+#     print("#" * 15, end='')
+#     for _ in range(zia_choices):
+#         print("#" * 15, end='')
+#     print("#")
 
-for _ in range(40):
-    work_zia_map.append([None] * 6)
+# for _ in range(40):
+#     work_zia_map.append([None] * 6)
 
-# for zia_row in range(len(work_zia_map)):
-for zia_row in [0]:
-    zia_choices = len(work_zia_map[zia_row])
-    # for zia_choice_i in range(zia_choices):
-    for zia_choice_i in [0]:
-        # Save current progress
-        with open("zia_work_dump.json", 'w') as f:
-            json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
+# # for zia_row in range(len(work_zia_map)):
+# for zia_row in [0]:
+#     zia_choices = len(work_zia_map[zia_row])
+#     # for zia_choice_i in range(zia_choices):
+#     for zia_choice_i in [0]:
+#         # Save current progress
+#         with open("zia_work_dump.json", 'w') as f:
+#             json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
 
-        print_progress("inpin")
+#         print_progress("inpin")
 
-        # Code HERE!
-        time.sleep(0.5)
+#         # Code HERE!
+#         time.sleep(0.5)
 
-        for try_fb in range(2):
-            for try_mc in range(16):
-                print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
+#         for try_fb in range(2):
+#             for try_mc in range(16):
+#                 print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
 
-                # Code HERE!
-                time.sleep(0.05)
+#                 # Code HERE!
+#                 time.sleep(0.05)
 
-                print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
+#                 print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
 
-                # Code HERE!
-                time.sleep(0.05)
+#                 # Code HERE!
+#                 time.sleep(0.05)
 
-dev.go_tlr()
+# dev.go_tlr()
 
 # led_idx = 0
 # while True:
