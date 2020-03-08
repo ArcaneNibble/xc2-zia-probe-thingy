@@ -242,8 +242,10 @@ print("idcode is 0x{:08X}".format(idcode))
 
 # dev.xc2_erase()
 
-# crbit_bits = load_crbit('work-jed-alt.crbit')
+# crbit_bits = load_crbit('tmp-base.crbit')
 # dev.xc2_program(crbit_bits)
+
+# sys.exit(1)
 
 dev.rti_from_tlr()
 dev.shift_ir_from_rti()
@@ -253,8 +255,20 @@ dev.shift_dr_from_exit1()
 
 work_zia_map = []
 
+def set_fake_input_bit(shift_bits, fb, mc):
+    if fb == 2:
+        # Hack for inpin
+        shift_bits[0] = 1
+    else:
+        idx = (fb * 16 + mc) * 3
+        shift_bits[96 - idx] = 1
+
+def get_output_bit(shift_bits, fb, mc):
+    idx = (fb * 16 + mc) * 3 + 1
+    return shift_bits[96 - idx]
+
 def print_progress(trystr):
-    return
+    # return
 
     # Each cell gets 15 total spaces
     print('\x1b[H', end='')
@@ -307,6 +321,9 @@ def print_progress(trystr):
 for _ in range(40):
     work_zia_map.append([None] * 6)
 
+GCK0_FB = 1
+GCK0_MC = 4
+
 # for zia_row in range(len(work_zia_map)):
 for zia_row in [0]:
     zia_choices = len(work_zia_map[zia_row])
@@ -334,28 +351,73 @@ for zia_row in [0]:
         base_crbit = load_crbit_2(subprocess.check_output([
             '/home/rqou/code/openfpga/src/xc2bit/target/release/xc2jed2crbit',
             'tmp-base.jed']).decode('ascii'))
-        print(base_crbit)
+        # print(base_crbit)
         alt_crbit = load_crbit_2(subprocess.check_output([
             '/home/rqou/code/openfpga/src/xc2bit/target/release/xc2jed2crbit',
             'tmp-alt.jed']).decode('ascii'))
-        print(alt_crbit)
+        # print(alt_crbit)
+
+        # Normally we would need to try to flash the bitstream here
+
+        # Need to be in shift-dr state in intest mode at this point
+
+        found_zia_entry = None
 
         print_progress("inpin")
-
-        # Code HERE!
+        # TODO: Code HERE!
         time.sleep(0.5)
 
         for try_fb in range(2):
             for try_mc in range(16):
+                if try_fb == GCK0_FB and try_mc == GCK0_MC:
+                    continue
+
                 print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
 
-                # Code HERE!
-                time.sleep(0.05)
+                # IO = 0; GCK0 = 0
+                fake_in_bits = [0] * 97
+                dev.shift_bits(fake_in_bits, True)
+                # in exit1-dr state now, need to update and recapture
+                dev.shift_dr_from_exit1()
+                captured_out_bits = dev.shift_bits([0] * 97, False)
+                print(captured_out_bits)
+                # still in shift-dr state
+                watcher_out_pin_00 = get_output_bit(captured_out_bits, 0, 8)
+
+                # IO = 1; GCK0 = 0
+                fake_in_bits = [0] * 97
+                set_fake_input_bit(fake_in_bits, try_fb, try_mc)
+                dev.shift_bits(fake_in_bits, True)
+                # in exit1-dr state now, need to update and recapture
+                dev.shift_dr_from_exit1()
+                captured_out_bits = dev.shift_bits([0] * 97, False)
+                print(captured_out_bits)
+                # still in shift-dr state
+                watcher_out_pin_10 = get_output_bit(captured_out_bits, 0, 8)
+
+                if watcher_out_pin_00 == 0 and watcher_out_pin_10 == 1:
+                    # Found it!
+                    found_zia_entry = (try_fb, try_mc, 'io')
+                    break
 
                 print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
 
                 # Code HERE!
                 time.sleep(0.05)
+
+            if found_zia_entry is not None:
+                break
+
+        if found_zia_entry is not None:
+            work_zia_map[zia_row][zia_choice_i] = found_zia_entry
+
+# Save final progress
+with open("zia_work_dump.json", 'w') as f:
+    json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
+
+# HACK
+zia_row = 1000000
+print_progress("FAKE")
 
 dev.go_tlr()
 
