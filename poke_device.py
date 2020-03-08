@@ -227,13 +227,19 @@ with open('work-jed-alt.jed', 'r') as f:
     work_jed_alt = f.read()
 
 ZIA_ENTRIES = [
-    '01111110',
-    '01111101',
-    '01111011',
-    '01110111',
-    '01101111',
-    '01011111',
-    '11111111',
+    '1111111011110110',
+    '1111111011110101',
+    '1111111011110011',
+    '1111111011100111',
+    '1111111011010111',
+    '1111111010110111',
+    '1110110011111111',
+    '1110101011111111',
+    '1110011011111111',
+    '1100111011111111',
+    '1010111011111111',
+    '0110111011111111',
+    '1111111111111111',
 ]
 
 dev = JTAGInteface()
@@ -326,7 +332,7 @@ for zia_row in [0]:
         # Generate JEDs
         jed_zia_data = ZIA_ENTRIES[-1] * zia_row + ZIA_ENTRIES[zia_choice_i] + ZIA_ENTRIES[-1] * (39 - zia_row)
         # print(jed_zia_data)
-        assert len(jed_zia_data) == 8 * 40
+        assert len(jed_zia_data) == 16 * 40
         jed_pterm_data = '11' * zia_row + '01' + '11' * (39 - zia_row)
         # print(jed_pterm_data)
         assert len(jed_pterm_data) == 80
