@@ -258,16 +258,16 @@ work_zia_map = []
 def set_fake_input_bit(shift_bits, fb, mc):
     if fb == 1:
         fb = 2
-    elif fb == 1:
-        fb = 2
+    elif fb == 2:
+        fb = 1
     idx = (fb * 16 + mc) * 3
     shift_bits[191 - idx] = 1
 
 def get_output_bit(shift_bits, fb, mc):
     if fb == 1:
         fb = 2
-    elif fb == 1:
-        fb = 2
+    elif fb == 2:
+        fb = 1
     idx = (fb * 16 + mc) * 3 + 1
     return shift_bits[191 - idx]
 
