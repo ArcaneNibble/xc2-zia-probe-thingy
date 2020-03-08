@@ -37,7 +37,10 @@ def num2arr(num, bits):
     return ret
 
 BYPASS      = 0b11111111
+EXTEST      = 0b00000000
 IDCODE      = 0b00000001
+INTEST      = 0b00000010
+SAMPLE      = 0b00000011
 ISC_DISABLE = 0b11000000
 ISC_ENABLE  = 0b11101000
 ISC_PROGRAM = 0b11101010
@@ -203,5 +206,5 @@ print("idcode is 0x{:08X}".format(idcode))
 
 dev.xc2_erase()
 
-crbit_bits = load_crbit('aaa.crbit')
+crbit_bits = load_crbit('test.crbit')
 dev.xc2_program(crbit_bits)
