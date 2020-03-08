@@ -211,13 +211,26 @@ print("idcode is 0x{:08X}".format(idcode))
 
 dev.rti_from_tlr()
 dev.shift_ir_from_rti()
-dev.shift_bits(num2arr(INTEST, 8), True)
-# dev.shift_bits(num2arr(EXTEST, 8), True)
+# dev.shift_bits(num2arr(INTEST, 8), True)
+dev.shift_bits(num2arr(EXTEST, 8), True)
 dev.shift_dr_from_exit1()
 
+led_idx = 0
 while True:
     # In shift-dr state now
-    bits_out = dev.shift_bits([0] * 97, True)
+
+    bits_to_shift = [0] * ((4 + led_idx) * 3)
+    bits_to_shift += [0, 1, 1]
+    bits_to_shift += [0] * ((16 + 11 - led_idx) * 3)
+    bits_to_shift = [0] + bits_to_shift[::-1]
+    led_idx = (led_idx + 1) % 8
+
+    # print(led_idx)
+    # print(bits_to_shift)
+    # print(len(bits_to_shift))
+    assert len(bits_to_shift) == 97
+
+    bits_out = dev.shift_bits(bits_to_shift, True)
     # print(bits_out)
     # In exit1-dr state now
 
@@ -286,3 +299,5 @@ while True:
     # inpin hack
     print("##########", end='')
     print()
+
+    time.sleep(0.05)
