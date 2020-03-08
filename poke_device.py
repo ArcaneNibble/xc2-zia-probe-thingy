@@ -264,7 +264,7 @@ def get_output_bit(shift_bits, fb, mc):
     return shift_bits[191 - idx]
 
 def print_progress(trystr):
-    # return
+    return
 
     # Each cell gets 15 total spaces
     print('\x1b[H', end='')
@@ -324,7 +324,7 @@ GCK1_MC = 7
 for zia_row in [0]:
     zia_choices = len(work_zia_map[zia_row])
     # for zia_choice_i in range(zia_choices):
-    for zia_choice_i in [0]:
+    for zia_choice_i in [6]:
         # Save current progress
         with open("zia_work_dump.json", 'w') as f:
             json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
