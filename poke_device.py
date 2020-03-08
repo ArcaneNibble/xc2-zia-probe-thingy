@@ -4,6 +4,25 @@ import usb.core
 import usb.util
 import time
 
+def load_crbit(fn):
+    crbit_bits = []
+    with open(fn, "r") as f:
+        for l in f.readlines():
+            l = l.strip()
+            if not l:
+                continue
+            if l.startswith("//"):
+                continue
+            # print(l)
+            linebits = [1 if c == '1' else 0 for c in l]
+            # print(linebits)
+            assert len(linebits) == 260
+            crbit_bits.append(linebits)
+
+    assert len(crbit_bits) == 50
+
+    return crbit_bits
+
 def arr2num(arr):
     ret = 0
     for i in range(len(arr)):
@@ -267,22 +286,8 @@ print("idcode is 0x{:08X}".format(idcode))
 dev.xc2_erase()
 
 ##### PROGRAM #####
-crbit_bits = []
-with open("aaa.crbit", "r") as f:
-    for l in f.readlines():
-        l = l.strip()
-        if not l:
-            continue
-        if l.startswith("//"):
-            continue
-        # print(l)
-        linebits = [1 if c == '1' else 0 for c in l]
-        # print(linebits)
-        assert len(linebits) == 260
-        crbit_bits.append(linebits)
-
-assert len(crbit_bits) == 50
-print(crbit_bits)
+crbit_bits = load_crbit('aaa.crbit')
+# print(crbit_bits)
 # aaaaaaaaaaaaa
 
 dev.xc2_program(crbit_bits)
