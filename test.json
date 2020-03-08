@@ -1,11 +1,11 @@
 {
-  "creator": "Yosys 0.9+1706 (git sha1 7932672f, gcc 9.2.1-8 -fPIC -Os)",
+  "creator": "Yosys 0.9+1706 (git sha1 88b00e4a, gcc 9.2.1-8 -fPIC -Os)",
   "modules": {
     "ANDTERM": {
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "dynports": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:10"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:10.1-27.10"
       },
       "ports": {
         "IN": {
@@ -28,21 +28,21 @@
           "hide_name": 0,
           "bits": [ ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:14"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:14.26-14.28"
           }
         },
         "IN_B": {
           "hide_name": 0,
           "bits": [ ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:15"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:15.26-15.30"
           }
         },
         "OUT": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:16"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:16.16-16.19"
           }
         }
       }
@@ -51,7 +51,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:138"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:138.1-143.10"
       },
       "ports": {
         "I": {
@@ -70,14 +70,14 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:139"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:139.11-139.12"
           }
         },
         "O": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:140"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:140.12-140.13"
           }
         }
       }
@@ -86,7 +86,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:145"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:145.1-152.10"
       },
       "ports": {
         "I": {
@@ -105,14 +105,14 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:148"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:148.11-148.12"
           }
         },
         "O": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:149"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:149.12-149.13"
           }
         }
       }
@@ -121,7 +121,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:154"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:154.1-161.10"
       },
       "ports": {
         "I": {
@@ -140,14 +140,14 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:157"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:157.11-157.12"
           }
         },
         "O": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:158"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:158.12-158.13"
           }
         }
       }
@@ -156,7 +156,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:58"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:58.1-76.10"
       },
       "ports": {
         "C": {
@@ -187,35 +187,35 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61.11-61.12"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61.19-61.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61.24-61.25"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:61.14-61.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:62"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:62.16-62.17"
           }
         }
       }
@@ -224,7 +224,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:252"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:252.1-270.10"
       },
       "ports": {
         "C": {
@@ -259,42 +259,42 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255.11-255.12"
           }
         },
         "CE": {
           "hide_name": 0,
           "bits": [ 7 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255.27-255.29"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255.19-255.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255.24-255.25"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:255.14-255.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:256"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:256.16-256.17"
           }
         }
       }
@@ -303,7 +303,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:272"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:272.1-290.10"
       },
       "ports": {
         "C": {
@@ -338,42 +338,42 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275.11-275.12"
           }
         },
         "CE": {
           "hide_name": 0,
           "bits": [ 7 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275.27-275.29"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275.19-275.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275.24-275.25"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:275.14-275.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:276"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:276.16-276.17"
           }
         }
       }
@@ -382,7 +382,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:78"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:78.1-96.10"
       },
       "ports": {
         "C": {
@@ -413,35 +413,35 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81.11-81.12"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81.19-81.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81.24-81.25"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:81.14-81.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:82"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:82.16-82.17"
           }
         }
       }
@@ -450,7 +450,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:163"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:163.1-181.10"
       },
       "ports": {
         "C": {
@@ -481,35 +481,35 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166.11-166.12"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166.19-166.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166.24-166.25"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:166.14-166.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:167"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:167.16-167.17"
           }
         }
       }
@@ -518,7 +518,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:292"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:292.1-310.10"
       },
       "ports": {
         "C": {
@@ -553,42 +553,42 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295.11-295.12"
           }
         },
         "CE": {
           "hide_name": 0,
           "bits": [ 7 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295.27-295.29"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295.19-295.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295.24-295.25"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:295.14-295.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:296"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:296.16-296.17"
           }
         }
       }
@@ -597,7 +597,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:183"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:183.1-204.10"
       },
       "ports": {
         "C": {
@@ -628,35 +628,35 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186.11-186.12"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186.19-186.22"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186.14-186.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:187"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:187.17-187.18"
           }
         },
         "T": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:186.24-186.25"
           }
         }
       }
@@ -665,7 +665,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:206"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:206.1-227.10"
       },
       "ports": {
         "C": {
@@ -696,35 +696,35 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209.11-209.12"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209.19-209.22"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209.14-209.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:210"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:210.17-210.18"
           }
         },
         "T": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:209.24-209.25"
           }
         }
       }
@@ -733,7 +733,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:229"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:229.1-250.10"
       },
       "ports": {
         "C": {
@@ -764,35 +764,35 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232.11-232.12"
           }
         },
         "CLR": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232.19-232.22"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232.14-232.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:233"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:233.17-233.18"
           }
         },
         "T": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:232.24-232.25"
           }
         }
       }
@@ -800,7 +800,7 @@
     "IBUF": {
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:1"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:1.1-3.10"
       },
       "ports": {
         "I": {
@@ -819,14 +819,14 @@
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:1"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:1.19-1.20"
           }
         },
         "O": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:1"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:1.29-1.30"
           }
         }
       }
@@ -834,7 +834,7 @@
     "IOBUFE": {
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5.1-8.10"
       },
       "ports": {
         "I": {
@@ -861,28 +861,28 @@
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5.30-5.31"
           }
         },
         "I": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5.21-5.22"
           }
         },
         "IO": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5.49-5.51"
           }
         },
         "O": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:5.40-5.41"
           }
         }
       }
@@ -891,7 +891,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:98"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:98.1-116.10"
       },
       "ports": {
         "G": {
@@ -922,35 +922,35 @@
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101.19-101.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101.24-101.25"
           }
         },
         "G": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101.11-101.12"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:101.14-101.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:102"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:102.16-102.17"
           }
         }
       }
@@ -959,7 +959,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:118"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:118.1-136.10"
       },
       "ports": {
         "G": {
@@ -990,35 +990,35 @@
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121.19-121.22"
           }
         },
         "D": {
           "hide_name": 0,
           "bits": [ 5 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121.24-121.25"
           }
         },
         "G": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121.11-121.12"
           }
         },
         "PRE": {
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:121.14-121.17"
           }
         },
         "Q": {
           "hide_name": 0,
           "bits": [ 6 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:122"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:122.16-122.17"
           }
         }
       }
@@ -1026,7 +1026,7 @@
     "MACROCELL_XOR": {
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:45"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:45.1-56.10"
       },
       "ports": {
         "IN_PTC": {
@@ -1049,21 +1049,21 @@
           "hide_name": 0,
           "bits": [ 3 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:49"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:49.11-49.20"
           }
         },
         "IN_PTC": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:48"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:48.11-48.17"
           }
         },
         "OUT": {
           "hide_name": 0,
           "bits": [ 4 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:50"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:50.17-50.20"
           }
         }
       }
@@ -1072,7 +1072,7 @@
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
         "dynports": "00000000000000000000000000000001",
-        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:29"
+        "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:29.1-43.10"
       },
       "ports": {
         "IN": {
@@ -1091,14 +1091,14 @@
           "hide_name": 0,
           "bits": [ ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:32"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:32.23-32.25"
           }
         },
         "OUT": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:33"
+            "src": "/home/rqou/code/yosys/share/coolrunner2/cells_sim.v:33.16-33.19"
           }
         }
       }
@@ -1106,7 +1106,7 @@
     "top": {
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "test.v:1"
+        "src": "test.v:1.1-21.10"
       },
       "ports": {
         "but0": {
@@ -1139,7 +1139,7 @@
           "attributes": {
             "LOC": "FB1_14",
             "keep": "00000000000000000000000000000001",
-            "src": "test.v:3"
+            "src": "test.v:3.11-3.15"
           },
           "port_directions": {
             "I": "input",
@@ -1158,7 +1158,7 @@
           "attributes": {
             "LOC": "FB1_15",
             "keep": "00000000000000000000000000000001",
-            "src": "test.v:5"
+            "src": "test.v:5.11-5.15"
           },
           "port_directions": {
             "I": "input",
@@ -1176,8 +1176,9 @@
           },
           "attributes": {
             "LOC": "FB1_9",
+            "TERM": "TRUE",
             "keep": "00000000000000000000000000000001",
-            "src": "test.v:7"
+            "src": "test.v:8.12-8.16"
           },
           "port_directions": {
             "I": "input",
@@ -1195,8 +1196,9 @@
           },
           "attributes": {
             "LOC": "FB1_10",
+            "TERM": "TRUE",
             "keep": "00000000000000000000000000000001",
-            "src": "test.v:9"
+            "src": "test.v:11.12-11.16"
           },
           "port_directions": {
             "I": "input",
@@ -1214,8 +1216,9 @@
           },
           "attributes": {
             "LOC": "FB1_11",
+            "TERM": "TRUE",
             "keep": "00000000000000000000000000000001",
-            "src": "test.v:11"
+            "src": "test.v:14.12-14.16"
           },
           "port_directions": {
             "I": "input",
