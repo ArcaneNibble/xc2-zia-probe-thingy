@@ -247,12 +247,6 @@ print("idcode is 0x{:08X}".format(idcode))
 
 # sys.exit(1)
 
-dev.rti_from_tlr()
-dev.shift_ir_from_rti()
-dev.shift_bits(num2arr(INTEST, 8), True)
-# dev.shift_bits(num2arr(EXTEST, 8), True)
-dev.shift_dr_from_exit1()
-
 work_zia_map = []
 
 def set_fake_input_bit(shift_bits, fb, mc):
@@ -327,14 +321,14 @@ GCK0_MC = 4
 # for zia_row in range(len(work_zia_map)):
 for zia_row in [0]:
     zia_choices = len(work_zia_map[zia_row])
-    # for zia_choice_i in range(zia_choices):
-    for zia_choice_i in [0]:
+    for zia_choice_i in range(zia_choices):
+    # for zia_choice_i in [0, 1]:
         # Save current progress
         with open("zia_work_dump.json", 'w') as f:
             json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         # Generate JEDs
-        jed_zia_data = ZIA_ENTRIES[-1] * zia_row + ZIA_ENTRIES[zia_row] + ZIA_ENTRIES[-1] * (39 - zia_row)
+        jed_zia_data = ZIA_ENTRIES[-1] * zia_row + ZIA_ENTRIES[zia_choice_i] + ZIA_ENTRIES[-1] * (39 - zia_row)
         # print(jed_zia_data)
         assert len(jed_zia_data) == 8 * 40
         jed_pterm_data = '11' * zia_row + '01' + '11' * (39 - zia_row)
@@ -357,7 +351,15 @@ for zia_row in [0]:
             'tmp-alt.jed']).decode('ascii'))
         # print(alt_crbit)
 
-        # Normally we would need to try to flash the bitstream here
+        # Flash the bitstream here
+        dev.go_tlr()
+        dev.xc2_erase()
+        dev.xc2_program(base_crbit)
+
+        dev.rti_from_tlr()
+        dev.shift_ir_from_rti()
+        dev.shift_bits(num2arr(INTEST, 8), True)
+        dev.shift_dr_from_exit1()
 
         # Need to be in shift-dr state in intest mode at this point
 
@@ -379,15 +381,13 @@ for zia_row in [0]:
                 dev.shift_bits(fake_in_bits, True)
                 # in exit1-dr state now, need to update and recapture
                 dev.shift_dr_from_exit1()
-                captured_out_bits = dev.shift_bits([0] * 97, False)
-                print(captured_out_bits)
-                # still in shift-dr state
+                # Overlap with shifting in the next test
+                # IO = 1; GCK0 = 0
+                set_fake_input_bit(fake_in_bits, try_fb, try_mc)
+                captured_out_bits = dev.shift_bits(fake_in_bits, True)
+                # print(captured_out_bits)
                 watcher_out_pin_00 = get_output_bit(captured_out_bits, 0, 8)
 
-                # IO = 1; GCK0 = 0
-                fake_in_bits = [0] * 97
-                set_fake_input_bit(fake_in_bits, try_fb, try_mc)
-                dev.shift_bits(fake_in_bits, True)
                 # in exit1-dr state now, need to update and recapture
                 dev.shift_dr_from_exit1()
                 captured_out_bits = dev.shift_bits([0] * 97, False)
