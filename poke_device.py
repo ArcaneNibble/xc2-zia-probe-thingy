@@ -3,6 +3,7 @@
 import usb.core
 import usb.util
 import time
+import json
 
 def load_crbit(fn):
     crbit_bits = []
@@ -215,89 +216,171 @@ dev.shift_bits(num2arr(INTEST, 8), True)
 # dev.shift_bits(num2arr(EXTEST, 8), True)
 dev.shift_dr_from_exit1()
 
-led_idx = 0
-while True:
-    # In shift-dr state now
+work_zia_map = []
 
-    bits_to_shift = [0] * ((4 + led_idx) * 3)
-    bits_to_shift += [0, 1, 1]
-    bits_to_shift += [0] * ((16 + 11 - led_idx) * 3)
-    bits_to_shift = [0] + bits_to_shift[::-1]
-    led_idx = (led_idx + 1) % 8
-
-    # print(led_idx)
-    # print(bits_to_shift)
-    # print(len(bits_to_shift))
-    assert len(bits_to_shift) == 97
-
-    bits_out = dev.shift_bits(bits_to_shift, True)
-    # print(bits_out)
-    # In exit1-dr state now
-
-    # Hack; need to cycle through update
-    dev.shift_dr_from_exit1()
-
-    inpin = bits_out[0]
-    oe = bits_out[1::3][::-1]
-    fbmc_out = bits_out[2::3][::-1]
-    iopad_in = bits_out[3::3][::-1]
-
+def print_progress(trystr):
+    # Each cell gets 15 total spaces
     print('\x1b[H', end='')
     print('\x1b[2J', end='')
-    #      |    |    |    |    |    |    |    |    |
 
-    num_fbs = len(oe) // 16
-
-    print("          ", end='')
-    for _ in range(num_fbs):
-        print("##########", end='')
-        print("##########", end='')
-        print("##########", end='')
-    # inpin hack
-    print("##########", end='')
-    print()
-
-    print("          ", end='')
-    for fb in range(num_fbs):
-        print("# FB{:<2} in ".format(fb + 1), end='')
-        print("# FB{:<2} oe ".format(fb + 1), end='')
-        print("# FB{:<2} o  ".format(fb + 1), end='')
-    # inpin hack
-    print("# INPIN  ", end='')
+    print(" " * 15, end='')
+    for _ in range(zia_choices):
+        print("#" * 15, end='')
     print("#")
 
-    print("##########", end='')
-    for _ in range(num_fbs):
-        print("##########", end='')
-        print("##########", end='')
-        print("##########", end='')
-    # inpin hack
-    print("##########", end='')
-    print()
+    print(" " * 15, end='')
+    for print_choice_i in range(zia_choices):
+        print("# {:<13d}".format(print_choice_i), end='')
+    print("#")
 
-    for mc in range(16):
-        #      |    |    |    |    |    |    |    |    |
-        print("# {:2d}      ".format(mc + 1), end='')
+    print("#" * 15, end='')
+    for _ in range(zia_choices):
+        print("#" * 15, end='')
+    print("#")
 
-        for fb in range(num_fbs):
-            print("# {:d}       ".format(iopad_in[16 * fb + mc]), end='')
-            print("# {:d}       ".format(oe[16 * fb + mc]), end='')
-            print("# {:d}       ".format(fbmc_out[16 * fb + mc]), end='')
+    for print_row in range(len(work_zia_map)):
+        print("# {:<13d}".format(print_row), end='')
+        for print_choice_i in range(zia_choices):
+            if print_row == zia_row and print_choice_i == zia_choice_i:
+                reverse_en = '\x1b[7m'
+                reverse_dis = '\x1b[0m'
+                fieldval = trystr + ' ' * (13 - len(trystr))
+            else:
+                reverse_en = ''
+                reverse_dis = ''
+                zia_data = work_zia_map[print_row][print_choice_i]
+                if zia_data is None:
+                    fieldval = "???"
+                elif zia_data == "inpin":
+                    fieldval = "inpin        "
+                elif zia_data[2] == "io":
+                    fieldval = "FB{}_{} io".format(zia_data[0] + 1, zia_data[1] + 1)
+                else:
+                    fieldval = "FB{}_{} mc".format(zia_data[0] + 1, zia_data[1] + 1)
+                fieldval = fieldval + ' ' * (13 - len(fieldval))
 
-        if mc == 0:
-            print("# {:d}      ".format(inpin), end='')
-        else:
-            print("#        ", end='')
-
+            print("#{} {}{}".format(reverse_en, fieldval, reverse_dis), end='')
         print("#")
 
-    print("##########", end='')
-    for _ in range(num_fbs):
-        print("##########", end='')
-        print("##########", end='')
-        print("##########", end='')
-    # inpin hack
-    print("##########", end='')
-    print()
+    print("#" * 15, end='')
+    for _ in range(zia_choices):
+        print("#" * 15, end='')
+    print("#")
 
-    time.sleep(0.05)
+for _ in range(40):
+    work_zia_map.append([None] * 6)
+
+# for zia_row in range(len(work_zia_map)):
+for zia_row in [0]:
+    zia_choices = len(work_zia_map[zia_row])
+    # for zia_choice_i in range(zia_choices):
+    for zia_choice_i in [0]:
+        # Save current progress
+        with open("zia_work_dump.json", 'w') as f:
+            json.dump(work_zia_map, f, sort_keys=True, indent=4, separators=(',', ': '))
+
+        print_progress("inpin")
+
+        # Code HERE!
+        time.sleep(0.5)
+
+        for try_fb in range(2):
+            for try_mc in range(16):
+                print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
+
+                # Code HERE!
+                time.sleep(0.05)
+
+                print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
+
+                # Code HERE!
+                time.sleep(0.05)
+
+dev.go_tlr()
+
+# led_idx = 0
+# while True:
+#     # In shift-dr state now
+
+#     bits_to_shift = [0] * ((4 + led_idx) * 3)
+#     bits_to_shift += [0, 1, 1]
+#     bits_to_shift += [0] * ((16 + 11 - led_idx) * 3)
+#     bits_to_shift = [0] + bits_to_shift[::-1]
+#     led_idx = (led_idx + 1) % 8
+
+#     # print(led_idx)
+#     # print(bits_to_shift)
+#     # print(len(bits_to_shift))
+#     assert len(bits_to_shift) == 97
+
+#     bits_out = dev.shift_bits(bits_to_shift, True)
+#     # print(bits_out)
+#     # In exit1-dr state now
+
+#     # Hack; need to cycle through update
+#     dev.shift_dr_from_exit1()
+
+#     inpin = bits_out[0]
+#     oe = bits_out[1::3][::-1]
+#     fbmc_out = bits_out[2::3][::-1]
+#     iopad_in = bits_out[3::3][::-1]
+
+#     print('\x1b[H', end='')
+#     print('\x1b[2J', end='')
+#     #      |    |    |    |    |    |    |    |    |
+
+#     num_fbs = len(oe) // 16
+
+#     print("          ", end='')
+#     for _ in range(num_fbs):
+#         print("##########", end='')
+#         print("##########", end='')
+#         print("##########", end='')
+#     # inpin hack
+#     print("##########", end='')
+#     print()
+
+#     print("          ", end='')
+#     for fb in range(num_fbs):
+#         print("# FB{:<2} in ".format(fb + 1), end='')
+#         print("# FB{:<2} oe ".format(fb + 1), end='')
+#         print("# FB{:<2} o  ".format(fb + 1), end='')
+#     # inpin hack
+#     print("# INPIN  ", end='')
+#     print("#")
+
+#     print("##########", end='')
+#     for _ in range(num_fbs):
+#         print("##########", end='')
+#         print("##########", end='')
+#         print("##########", end='')
+#     # inpin hack
+#     print("##########", end='')
+#     print()
+
+#     for mc in range(16):
+#         #      |    |    |    |    |    |    |    |    |
+#         print("# {:2d}      ".format(mc + 1), end='')
+
+#         for fb in range(num_fbs):
+#             print("# {:d}       ".format(iopad_in[16 * fb + mc]), end='')
+#             print("# {:d}       ".format(oe[16 * fb + mc]), end='')
+#             print("# {:d}       ".format(fbmc_out[16 * fb + mc]), end='')
+
+#         if mc == 0:
+#             print("# {:d}      ".format(inpin), end='')
+#         else:
+#             print("#        ", end='')
+
+#         print("#")
+
+#     print("##########", end='')
+#     for _ in range(num_fbs):
+#         print("##########", end='')
+#         print("##########", end='')
+#         print("##########", end='')
+#     # inpin hack
+#     print("##########", end='')
+#     print()
+
+#     time.sleep(0.05)
