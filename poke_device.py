@@ -240,26 +240,22 @@ dev = JTAGInteface()
 idcode = dev.idcode()
 print("idcode is 0x{:08X}".format(idcode))
 
-dev.xc2_erase()
+# dev.xc2_erase()
 
-crbit_bits = load_crbit('test-64.crbit')
-dev.xc2_program(crbit_bits)
+# crbit_bits = load_crbit('test-64.crbit')
+# dev.xc2_program(crbit_bits)
 
-sys.exit(1)
+# sys.exit(1)
 
 work_zia_map = []
 
 def set_fake_input_bit(shift_bits, fb, mc):
-    if fb == 2:
-        # Hack for inpin
-        shift_bits[0] = 1
-    else:
-        idx = (fb * 16 + mc) * 3
-        shift_bits[96 - idx] = 1
+    idx = (fb * 16 + mc) * 3
+    shift_bits[191 - idx] = 1
 
 def get_output_bit(shift_bits, fb, mc):
     idx = (fb * 16 + mc) * 3 + 1
-    return shift_bits[96 - idx]
+    return shift_bits[191 - idx]
 
 def print_progress(trystr):
     # return
@@ -313,12 +309,17 @@ def print_progress(trystr):
     print("#")
 
 for _ in range(40):
-    work_zia_map.append([None] * 6)
+    work_zia_map.append([None] * 12)
+
+zia_row = 1000000
+zia_choices = 12
+print_progress("FAKE")
+sys.exit(1)
 
 GCK0_FB = 1
-GCK0_MC = 4
+GCK0_MC = 6
 GCK1_FB = 1
-GCK1_MC = 5
+GCK1_MC = 7
 
 for zia_row in range(len(work_zia_map)):
 # for zia_row in [1]:
