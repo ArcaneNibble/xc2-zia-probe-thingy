@@ -317,9 +317,11 @@ for _ in range(40):
 
 GCK0_FB = 1
 GCK0_MC = 4
+GCK1_FB = 1
+GCK1_MC = 5
 
 # for zia_row in range(len(work_zia_map)):
-for zia_row in [6]:
+for zia_row in [1]:
     zia_choices = len(work_zia_map[zia_row])
     for zia_choice_i in range(zia_choices):
     # for zia_choice_i in [0, 1]:
@@ -391,6 +393,8 @@ for zia_row in [6]:
                 for try_mc in range(16):
                     if try_fb == GCK0_FB and try_mc == GCK0_MC:
                         continue
+                    if try_fb == 0 and try_mc == 8:
+                        continue
 
                     # Need to be in exit1 state in intest mode at this point
 
@@ -449,6 +453,74 @@ for zia_row in [6]:
                         break
 
                 if found_zia_entry is not None:
+                    break
+
+        if found_zia_entry is None:
+            # Either the GCK0 pin or the probe pin
+            # Need to use alt bitstream
+            dev.go_tlr()
+            dev.xc2_erase()
+            dev.xc2_program(alt_crbit)
+
+            dev.rti_from_tlr()
+            dev.shift_ir_from_rti()
+            dev.shift_bits(num2arr(INTEST, 8), True)
+
+            for (try_fb, try_mc) in [(GCK0_FB, GCK0_MC), (0, 8)]:
+                # Need to be in exit1 state in intest mode at this point
+
+                print_progress("FB{}_{} io".format(try_fb + 1, try_mc + 1))
+
+                # IO = 0; GCK1 = 0
+                fake_in_bits = [0] * 97
+                dev.shift_dr_from_exit1()
+                dev.shift_bits(fake_in_bits, True)
+                # in exit1-dr state now, need to update and recapture
+                dev.shift_dr_from_exit1()
+                # Overlap with shifting in the next test
+                # IO = 1; GCK1 = 0
+                set_fake_input_bit(fake_in_bits, try_fb, try_mc)
+                captured_out_bits = dev.shift_bits(fake_in_bits, True)
+                # print(captured_out_bits)
+                watcher_out_pin_00 = get_output_bit(captured_out_bits, 0, 9)
+
+                # in exit1-dr state now, need to update and recapture
+                dev.shift_dr_from_exit1()
+                # Overlap with shifting in the next test
+                # IO = 0; GCK1 = 1
+                fake_in_bits = [0] * 97
+                set_fake_input_bit(fake_in_bits, GCK1_FB, GCK1_MC)
+                captured_out_bits = dev.shift_bits(fake_in_bits, True)
+                # print(captured_out_bits)
+                watcher_out_pin_10 = get_output_bit(captured_out_bits, 0, 9)
+
+                if watcher_out_pin_00 == 0 and watcher_out_pin_10 == 1:
+                    # Found it!
+                    found_zia_entry = (try_fb, try_mc, 'io')
+                    break
+
+                print_progress("FB{}_{} mc".format(try_fb + 1, try_mc + 1))
+
+                # in exit1-dr state now, need to update and recapture
+                dev.shift_dr_from_exit1()
+                # Overlap with shifting in the next test
+                # IO = 1; GCK1 = 1
+                fake_in_bits = [0] * 97
+                set_fake_input_bit(fake_in_bits, try_fb, try_mc)
+                set_fake_input_bit(fake_in_bits, GCK1_FB, GCK1_MC)
+                captured_out_bits = dev.shift_bits(fake_in_bits, True)
+                # print(captured_out_bits)
+                watcher_out_pin_01 = get_output_bit(captured_out_bits, 0, 9)
+
+                # in exit1-dr state now, need to update and recapture
+                dev.shift_dr_from_exit1()
+                captured_out_bits = dev.shift_bits([0] * 97, True)
+                # print(captured_out_bits)
+                watcher_out_pin_11 = get_output_bit(captured_out_bits, 0, 9)
+
+                if watcher_out_pin_01 == 0 and watcher_out_pin_11 == 1:
+                    # Found it!
+                    found_zia_entry = (try_fb, try_mc, 'mc')
                     break
 
         if found_zia_entry is not None:
