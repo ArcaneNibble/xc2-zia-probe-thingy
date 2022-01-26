@@ -113,3 +113,33 @@ NOTE: What happens if the input pin being tested is either the clock pin or the
 designated output pin? The script special-cases these two possibilities and
 uses an alternate bitstream that uses GCK1 instead of GCK0 and a different
 designated output pin.
+
+## Known Issues / Work Needed
+
+* I (@rqou_) have a board with an XC2C128 and XC2C256, but it does not use the
+  same JTAG adapter as the CuteRunner. Because CuteRunner for these parts
+  does not exist (yet), the JTAG algorithms need to be rewritten to support
+  the board I actually have on hand.
+* This algorithm has a critical assumption that does not hold for the XC2C128
+  or larger parts. Step 6 above assumes that every macrocell has a
+  corresponding pin, and that that pin can be used to change the macrocell
+  output without going through the ZIA. However, the larger parts feature
+  "buried macrocells" where this is not the case. The only way to get inputs
+  into buried macrocells is to go via the ZIA.
+
+  The gist of how this can be dealt with is to first run an algorithm similar
+  to the one described here. This will recover a _partial_ ZIA table. This
+  partial table can then be used to generate new bitstreams that allow for the
+  buried macrocells to be tested. However, the details of this have not yet
+  been worked out.
+* On some of the larger parts, the algorithm here will require more
+  bitstreams than the number of guaranteed flash program/erase cycles.
+  Additionally, when SRAM-only programming was previously attempted,
+  it did not seem to behave properly.
+
+  This can theoretically be worked around by using many output pins at once
+  rather than a single designated output pin. The details of this have not
+  yet been worked out.
+* The algorithm could theoretically be optimized by scanning multiple input
+  pins at once and using binary search. This does not change the output but
+  makes it faster for someone else to attempt to reproduce the results.
