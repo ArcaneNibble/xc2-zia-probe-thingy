@@ -67,7 +67,7 @@ TODO: XC2 architecture/macrocell overview?
 We start by configuring every macrocell in the part except for one (the
 designated output macrocell) like this:
 
-TODO: insert diagram
+![diagram of macrocell](docs/inputmc.jpg)
 
 In other words, the macrocell is configured so that the "pin" ZIA input path
 is configured to come from the input pad and the "macrocell feedback" ZIA
@@ -76,7 +76,7 @@ latch. _Notably_, this configuration allows for the PLA to be ignored.
 
 We configure the designated output macrocell like this:
 
-TODO insert diagram
+![diagram of output macrocell](docs/outputmc.jpg)
 
 In other words, the designated output macrocell is configured to directly
 connect a ZIA row to an output pin. Both the "pin" and "macrocell feedback"
@@ -91,7 +91,7 @@ The algorithm then proceeds as follows:
     choice, and configure the designated output macrocell to output from the
     selected ZIA row
 >>> 2. Flash the generated bitstream
->>> 3. For every single input pin[^1]:
+>>> 3. For every single input pin:
 >>>> 1. Set the input=0, GCK=0, measure output pin
 >>>> 2. Set the input=1, GCK=0, measure output pin
 >>>> 3. Set the input=0, GCK=1, measure output pin
@@ -109,7 +109,7 @@ The algorithm then proceeds as follows:
         been found in step 5), and all latches now behave transparently because
         GCK=1.
 
-[^1] What happens if the input pin being tested is either the clock pin or the
+NOTE: What happens if the input pin being tested is either the clock pin or the
 designated output pin? The script special-cases these two possibilities and
 uses an alternate bitstream that uses GCK1 instead of GCK0 and a different
 designated output pin.
