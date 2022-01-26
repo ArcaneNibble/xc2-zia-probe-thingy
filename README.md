@@ -28,7 +28,18 @@ vendor compiler toolchain.
 One critical piece of information that needs to be recovered is the data
 about how the ZIA is connected.
 
-TODO: Explain how the ZIA works in a lot more detail?
+The ZIA is the global interconnect matrix in CoolRunner-II parts. It connects
+between all pin inputs and all macrocell feedback outputs into
+each function block. Other than special "direct input" paths, all signals
+must pass through the ZIA in order to reach any logic in the CPLD.
+
+Because a naive implementation of a crossbar interconnect would reach
+impractical sizes as the number of macrocells in the CPLD increased, the ZIA
+has been optimized (when the chip was initially designed) to be much smaller
+while still allowing "almost all" designs to be routable. This is described
+in [Xilinx WP105](https://www.xilinx.com/support/documentation/white_papers/wp105.pdf)
+(the document describes the CoolRunner XPLA3, but the CoolRunner-II uses a very
+similar design).
 
 The ZIA connectivity table has been successfully recovered for the XC2C32A
 by putting a sample chip inside an electron microscope, but this method
@@ -63,6 +74,15 @@ connections are required.).
 ## Summary of algorithm
 
 TODO: XC2 architecture/macrocell overview?
+
+Before running this fuzzing algorithm, it was possible to determine (by a
+combination of guessing and feeding test designs into the vendor compiler)
+that:
+* the ZIA mapping does not change across function blocks (i.e. ZIA row `i`
+  choice `n` is connected to the same input regardless of function block)
+* the total number of choices in each ZIA row can be determined
+
+These observations simplify the needed guesses.
 
 We start by configuring every macrocell in the part except for one (the
 designated output macrocell) like this:
@@ -116,7 +136,7 @@ designated output pin.
 
 ## Known Issues / Work Needed
 
-* I (@rqou_) have a board with an XC2C128 and XC2C256, but it does not use the
+* I (@rqou) have a board with an XC2C128 and XC2C256, but it does not use the
   same JTAG adapter as the CuteRunner. Because CuteRunner for these parts
   does not exist (yet), the JTAG algorithms need to be rewritten to support
   the board I actually have on hand.
